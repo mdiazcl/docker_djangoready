@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# Support libs
+script_error_msg () {
+    echo "[!] Error starting jupyter server."
+    echo " - Reason: $1"
+}
+
+# Check if django project exists
+MANAGE_PY=${DJANGOFOLDER}/manage.py
+if ! test -f $MANAGE_PY; then
+    script_error_msg "$MANAGE_PY not found; You must create a Django project first!"
+    exit 1
+fi
+
+# Get project name
+DJANGO_PROJECT_NAME=$(sed -ne "s/.*DJANGO_SETTINGS_MODULE', *'\(.*\).settings')/\1/p" ${DJANGOFOLDER}/manage.py)
+if test -z "$DJANGO_PROJECT_NAME"; then
+    script_error_msg "Could not find project name..."
+    exit 1
+fi
+
+# Create notebook folder
+mkdir -p ${DJANGOFOLDER}/notebooks
+if ! test -f ${DJANGOFOLDER}/notebooks/jupyter.py; then
+    cp /jupyter/jupyter.py ${DJANGOFOLDER}/notebooks/jupyter.py
+    cp /jupyter/example.ipynb ${DJANGOFOLDER}/notebooks/example.ipynb
+fi
+
+# Run django notebook server in port 8000
+env DJANGO_PROJECT_NAME="$DJANGO_PROJECT_NAME" jupyter notebook --allow-root --ip=0.0.0.0 --port=8000

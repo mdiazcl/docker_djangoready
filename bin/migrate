@@ -1,0 +1,3 @@
+#!/bin/sh
+python ${DJANGOFOLDER}/manage.py makemigrations
+python ${DJANGOFOLDER}/manage.py migrate

@@ -1,0 +1,4 @@
+#!/bin/sh
+django-admin startproject $1 ${DJANGOFOLDER}/.
+mkdir ${DJANGOFOLDER}/apps
+touch ${DJANGOFOLDER}/__init__.py"

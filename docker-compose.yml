@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  site:
+    image: mdiazcl:djangoready-2.1.7
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./code:/djangocode
+    ports:
+      - 8000:8000

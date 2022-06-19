@@ -1,0 +1,2 @@
+#!/bin/sh
+python ${DJANGOFOLDER}/manage.py createsuperuser
